@@ -207,3 +207,29 @@ On-Premise VMs vs On-Premise Bare Metal
 -Bare Metal: Kubernetes can be installed on bare metal, on top of different OS' like REHL, CoreOS, Ubuntu, CentOS, Fedora, etc.
 --Most tools to install Kubernetes on VMs can be used with baremetal installations as well
 
+Cloud Installation-- can occur on either Hosted Solutions or Turnkey Cloud Solutions
+-Hosted Solutions: any given software is totally managed by the provider-- the user pays hosting and management charges-- some vendors include:
+-- Google Kubernetes Engine (GKE)
+-- Azure Kubernetes Service (AKS)
+-- Amazon Elastic Container Service for Kubernetes (EKS)
+-- DigitalOcean Kubernetes
+-- OpenShift Dedicated
+-- Platform9
+-- IBM Cloud Kubernetes Service
+-Turnkey Cloud Solutions: installs Kubernetes with a few commands on an underlying laas platform
+-- Google Compute Engine (GCE)
+-- Amazon AWS (AWS EC2)
+-- Microsoft Azure (AKS)
+-Turnkey On-Premise Solutions: install Kubernetes on secure internal private clouds with a few commands
+--GKE On-Prem by Google Cloud
+--IBM Cloud Private
+--OpenShift Container Platform by Red Hat
+
+Kubernetes Installation Tools/Resources
+-kubeadm: secure/recommended way to boostrap a single or multi node Kubernetes cluster-- has set of building blocks to setup cluster, easily extendable to add more features
+--Doesn't support provisioning hosts
+-kubespray: installs Highly Available Kubernetes clusters on AWS, GCE, Azure, OpenStack, or bare metal-- kubespray is based on Ansible and is available on most distributions on Linux
+-kops: creates, deletes, upgrades, and maintains production-grade, highly available Kubernetes clusters from CLI-- can provision machines
+--AWS is officially supported, GCE support in beta, and VMware vSphere in Alpha, with other platforms planned for the future
+-kube-aws: creates, upgrades, and destroys Kubernetes clusters on AWS from CLI
+
