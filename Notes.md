@@ -180,6 +180,30 @@ Pod-to-External World Communication
 --By exposing services to the external world with kube-proxy, apps become accessible from outside the cluster over a virtual IP
 
 ## Chapter 4: Installing Kubernetes
+Kubernetes can be installed using different configs-- there are 4 major installation types
+1. All-in-One Single-Node Installation- All master and worker components are installed and running on a single node.  Useful for learning, development, and testing, shouldn't be used for production
+-An example of an All-in-One Single-Node would be Minikube
+2. Single-Node etcd, Single-Master and Multi-Worker Installation- Single master node which also runs single-node etcd instance, multiple worker nodes are connected to master node
+3. Single-Node etcd, Multi-Master and Multi-Worker Installation- multiple-master nodes configured in HA mode, but single-node etcd instance... multiple worker nodes connected to the master nodes
+4. Multi-node etcd, Multi-Master and Multi-Worker Installation- etcd is configured and clustered in HA mode, master nodes are configured in HA node, connecting to multiple worker nodes
+-This is the most advanced and recommended production setup
 
+Once we pick installation type, need to make infrastructure decisions such as...
+-Should we setup Kubernetes on bare metal, public cloud, or private cloud?
+-Which underlying OS should we use?  RHEL, CoreOS, CentOS, something else?
+-Which networking solution to use?
+-Check Kubernetes documentation for best setup when using a learning/production environment
 
+Only a few localhost installation options available to deploy single or multinode Kubernetes clusters on our workstation
+1. Minikube- single-node local Kubernetes cluster
+-Preferred/recommended way to create an all-in-one Kubernetes setup locally
+2. Docker Desktop- single-node local Kubernetes cluster for Windows and Mac and Linux
+-Docker Desktop lets you run Docker hypervisor on your machine
+3. CDK on LXD- multi-node local cluster with LXD containers
+
+On-Premise VMs vs On-Premise Bare Metal
+-VMs: Kubernetes can be installed on VMs created via Vagrant, VMware, vSphere, KVM, or another Config Management(CM) tool in conjunction with hypervisor software
+--Different tools available to automate installation such as Ansible or kubeadm
+-Bare Metal: Kubernetes can be installed on bare metal, on top of different OS' like REHL, CoreOS, Ubuntu, CentOS, Fedora, etc.
+--Most tools to install Kubernetes on VMs can be used with baremetal installations as well
 
