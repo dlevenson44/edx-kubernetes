@@ -259,7 +259,7 @@ Minikub CRI-O can be started by running `minikube start --container-runtime=cri-
 
 ### Installing on Linux
 1. Install VirtualBox Hypervisor-- add the source repo for the bionic distro (Ubuntu 18.04), download, and register the public key, update, and install
-```
+```bash
 $ sudo bash -c 'echo "deb https://download.virtualbox.org/virtualbox/debian bionic contrib" >> /etc/apt/sources.list'
 $ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 $ sudo apt-get update
