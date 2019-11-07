@@ -690,5 +690,12 @@ spec:
 ```
 7. View the certificate, encode it in `base64`, and assign it to the request field by running `cat student.csr | base64 | tr -d '\n'` and then running `vim signing-request.yaml` to update the request field with the value generated from teh command above
 - Make sure lines are space indented and not tab indented
-8. Create the certificate signing object by running `kubectl create -f signing-request.yaml`
-9. List the certificate signing objects by running `get csr`
+8. Create the certificate signing object by running `kubectl create -f signing-request.yaml`-- bases the the request off the metadata name
+9. List the certificate signing objects by running `kubectl get csr`, shows your requests and their status (initial status is pending)
+10. Approve certificate by running `kubectl certificate approve student-csr`, where you specify the CSR we approve
+11. Extract approved certifiace from certificate signing request by running `kubectl get csr student-csr -o jsonpath='{.status.certificate}' | base64 --decode > student.crt` then `cat student.crt`
+12. Decode the certificate with base64 and save it as a certificate file
+`kubectl config set-credentials student --client-certificate=student.crt --client-key=student.key`
+- View the certificate in the newly created certificate file
+
+Extract the approved certificate from the certificate signing request, decode it with base64 and save it as a certificate file. Then view the certificate in the newly created certificate file:
