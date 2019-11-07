@@ -694,8 +694,43 @@ spec:
 9. List the certificate signing objects by running `kubectl get csr`, shows your requests and their status (initial status is pending)
 10. Approve certificate by running `kubectl certificate approve student-csr`, where you specify the CSR we approve
 11. Extract approved certifiace from certificate signing request by running `kubectl get csr student-csr -o jsonpath='{.status.certificate}' | base64 --decode > student.crt` then `cat student.crt`
-12. Decode the certificate with base64 and save it as a certificate file
+12. Configure student user's credentials by assigning the key and certificate
 `kubectl config set-credentials student --client-certificate=student.crt --client-key=student.key`
 - View the certificate in the newly created certificate file
+13. Create new context entry in kubectl client config file for `student` user associated for `lfs158` namespace in `minikube` cluster-- `kubectl config set-context student-context --cluster=minikube --namespace=lfs158 --user=student`
+14. Create new `deployment` in same namespace while in the default`minikube context` by running `kubectl -n lfs158 create deployment nginx --image=nginx:alpine`
+15. List pods from `context student-context` by running `kubectl --context=student-context get pods` to get the pods-- should fail first time b/c user has no permissions configured for `student-context`
+- Steps 16- are to correct the above error
+16. To fix this, first create a YAML config file for a `pod-reader` role object which only allows the `get`, `watch`, `list` actions in the namespace against pod objects... create `roles.yaml` and pass below:
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reacher
+  namespace: lfs158
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+```
+17. Create the role by running `kubectl create -f role.yaml`, and view roles by running `kubectl -n lfs158 get roles`
+18. Create config file for rolebinding object (rolebinding.yaml), to assign `pod-reader` role to `student` user... `rolebinding.yaml` below:
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-read-access
+  namespace: lfs158
+subjects:
+- kind: User
+  name: student
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+```
+19. Create rolebinding object by running `kubectl create -f rolebinding.yaml` and list it from the `lfs158` namespace with `kubectl -n lfs158 get rolesbindings`
+20. Permissions have now been created and assigned, so we can list the pods running `kubectl --context=student-context get pods`
 
-Extract the approved certificate from the certificate signing request, decode it with base64 and save it as a certificate file. Then view the certificate in the newly created certificate file:
+## Chapter 8: Services
