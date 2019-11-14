@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-password-2
+type: Opaque
+stringData:
+  password: mysqlpassword
