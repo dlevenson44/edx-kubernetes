@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-rails
+  template:
+    metadata:
+      labels:
+        app: test-rails
+    spec:
+      containers:
+      - name: rails-container
+        image: dlevenson/kubernetes-rails-example
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
